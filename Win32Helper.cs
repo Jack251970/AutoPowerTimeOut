@@ -1,4 +1,7 @@
-﻿using Windows.Win32;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
+using System.Runtime.InteropServices;
+using Windows.Win32;
 using Windows.Win32.Foundation;
 
 namespace AutoPowerTimeOut;
@@ -57,5 +60,35 @@ internal class Win32Helper
     public static bool SetForegroundWindow(nint handle)
     {
         return PInvoke.SetForegroundWindow(new(handle));
+    }
+
+    private static bool IsNotificationSupported()
+    {
+        // Notifications only supported on Windows 10 19041+
+        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+            Environment.OSVersion.Version.Build >= 19041;
+    }
+
+    public static bool ShowNotification(string title, string message)
+    {
+        if (!IsNotificationSupported())
+        {
+            return false;
+        }
+
+        try
+        {
+            new ToastContentBuilder()
+                .AddText(title, hintMaxLines: 1)
+                .AddText(message)
+                .AddAppLogoOverride(new Uri(Constants.IconPath))
+                .Show();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to show notification: {ex.Message}");
+            return false;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -71,7 +72,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
-        System.Windows.Application.Current.MainWindow = this;
+        Application.Current.MainWindow = this;
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
     }

@@ -4,10 +4,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using Microsoft.Toolkit.Uwp.Notifications;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
+using MouseButtons = System.Windows.Forms.MouseButtons;
 
 namespace AutoPowerTimeOut;
 
-public partial class App : System.Windows.Application
+public partial class App : Application
 {
     public static Settings Settings { get; private set; } = null!;
 
@@ -74,6 +77,9 @@ public partial class App : System.Windows.Application
             (uint)Settings.PluggedInSleep,
             (uint)Settings.OnBatterySleep
         );
+        Win32Helper.ShowNotification(
+            "Auto Power Time-out",
+            "Power settings have been updated successfully.");
     }
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -84,6 +90,7 @@ public partial class App : System.Windows.Application
 
     private void Application_Exit(object sender, ExitEventArgs e)
     {
+        ToastNotificationManagerCompat.Uninstall();
         _contextMenu.IsOpen = false;
         _notifyIcon?.Dispose();
         SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
