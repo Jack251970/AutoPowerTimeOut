@@ -12,7 +12,7 @@ public class StartupHelper
 
     public static void CheckIsEnabled()
     {
-        if (CheckLogonTask())
+        if (!CheckLogonTask())
         {
             ScheduleLogonTask();
         }
