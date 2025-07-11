@@ -1,13 +1,14 @@
 ﻿using iNKORE.UI.WPF.Modern.Controls;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using Microsoft.Toolkit.Uwp.Notifications;
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using MouseButtons = System.Windows.Forms.MouseButtons;
+using NotifyIcon = System.Windows.Forms.NotifyIcon;
 
 namespace AutoPowerTimeOut;
 
@@ -60,6 +61,20 @@ public partial class App : Application
         };
         SetupPowerSettings();
         SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+        AutoStartup();
+    }
+
+    [Conditional("RELEASE")]
+    private static void AutoStartup()
+    {
+        try
+        {
+            StartupHelper.CheckIsEnabled();
+        }
+        catch (Exception e)
+        {
+            Win32Helper.ShowNotification($"Failed to register logon task: {e.Message}");
+        }
     }
 
     private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -83,14 +98,10 @@ public partial class App : Application
         }
         catch (Exception e)
         {
-            Win32Helper.ShowNotification(
-                "Auto Power Time-out",
-                $"Failed to update power settings: {e.Message}");
+            Win32Helper.ShowNotification($"Failed to update power settings: {e.Message}");
             return;
         }
-        Win32Helper.ShowNotification(
-            "Auto Power Time-out",
-            "Power settings have been updated successfully.");
+        Win32Helper.ShowNotification("Power settings have been updated successfully.");
     }
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

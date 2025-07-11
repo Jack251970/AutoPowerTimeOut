@@ -69,7 +69,7 @@ internal class Win32Helper
             Environment.OSVersion.Version.Build >= 19041;
     }
 
-    public static bool ShowNotification(string title, string message)
+    public static bool ShowNotification(string message)
     {
         if (!IsNotificationSupported())
         {
@@ -79,7 +79,7 @@ internal class Win32Helper
         try
         {
             new ToastContentBuilder()
-                .AddText(title, hintMaxLines: 1)
+                .AddText("Auto Power Time-out", hintMaxLines: 1)
                 .AddText(message)
                 .AddAppLogoOverride(new Uri(Constants.IconPath))
                 .Show();
