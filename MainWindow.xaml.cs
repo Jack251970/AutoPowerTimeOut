@@ -71,6 +71,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
+        System.Windows.Application.Current.MainWindow = this;
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
     }
@@ -93,6 +94,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 break;
         }
         App.Settings.Save();
+    }
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        Hide();
+        e.Cancel = true; // Prevent the window from closing
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

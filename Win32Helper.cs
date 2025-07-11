@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using Windows.Win32;
 
 namespace AutoPowerTimeOut;
 
@@ -31,4 +32,9 @@ internal class Win32Helper
 
     public static Guid GUID_SLEEP_SUBGROUP = new("238C9FA8-0AAD-41ED-83F4-97BE242C8F20");
     public static Guid GUID_SLEEP_IDLE = new("29f6c1db-86da-48c5-9fdb-f2b67b1f44da");
+
+    public static bool SetForegroundWindow(nint handle)
+    {
+        return PInvoke.SetForegroundWindow(new(handle));
+    }
 }
