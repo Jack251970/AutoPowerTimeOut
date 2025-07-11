@@ -42,44 +42,18 @@
                 FontWeight="Bold"
                 Text="Plugged in" />
             <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox>
-                    <ComboBoxItem Content="1 minute" />
-                    <ComboBoxItem Content="2 minutes" />
-                    <ComboBoxItem Content="3 minutes" />
-                    <ComboBoxItem Content="5 minutes (Recommended)" />
-                    <ComboBoxItem Content="10 minutes" />
-                    <ComboBoxItem Content="15 minutes" />
-                    <ComboBoxItem Content="20 minutes" />
-                    <ComboBoxItem Content="25 minutes" />
-                    <ComboBoxItem Content="30 minutes" />
-                    <ComboBoxItem Content="45 minutes" />
-                    <ComboBoxItem Content="1 hour" />
-                    <ComboBoxItem Content="2 hours" />
-                    <ComboBoxItem Content="3 hours" />
-                    <ComboBoxItem Content="4 hours" />
-                    <ComboBoxItem Content="5 hours" />
-                    <ComboBoxItem Content="Never" />
-                </ComboBox>
+                <ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding PluggedInItemSource}"
+                    SelectedValue="{Binding PluggedInScreen}"
+                    SelectedValuePath="Value" />
             </ui:SettingsCard>
             <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox>
-                    <ComboBoxItem Content="1 minute" />
-                    <ComboBoxItem Content="2 minutes" />
-                    <ComboBoxItem Content="3 minutes" />
-                    <ComboBoxItem Content="5 minutes (Recommended)" />
-                    <ComboBoxItem Content="10 minutes" />
-                    <ComboBoxItem Content="15 minutes" />
-                    <ComboBoxItem Content="20 minutes" />
-                    <ComboBoxItem Content="25 minutes" />
-                    <ComboBoxItem Content="30 minutes" />
-                    <ComboBoxItem Content="45 minutes" />
-                    <ComboBoxItem Content="1 hour" />
-                    <ComboBoxItem Content="2 hours" />
-                    <ComboBoxItem Content="3 hours" />
-                    <ComboBoxItem Content="4 hours" />
-                    <ComboBoxItem Content="5 hours" />
-                    <ComboBoxItem Content="Never" />
-                </ComboBox>
+                <ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding PluggedInItemSource}"
+                    SelectedValue="{Binding PluggedInSleep}"
+                    SelectedValuePath="Value" />
             </ui:SettingsCard>
 
             <TextBlock
@@ -89,44 +63,18 @@
                 FontWeight="Bold"
                 Text="On battery" />
             <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox>
-                    <ComboBoxItem Content="1 minute" />
-                    <ComboBoxItem Content="2 minutes" />
-                    <ComboBoxItem Content="3 minutes (Recommended)" />
-                    <ComboBoxItem Content="5 minutes" />
-                    <ComboBoxItem Content="10 minutes" />
-                    <ComboBoxItem Content="15 minutes" />
-                    <ComboBoxItem Content="20 minutes" />
-                    <ComboBoxItem Content="25 minutes" />
-                    <ComboBoxItem Content="30 minutes" />
-                    <ComboBoxItem Content="45 minutes" />
-                    <ComboBoxItem Content="1 hour" />
-                    <ComboBoxItem Content="2 hours" />
-                    <ComboBoxItem Content="3 hours" />
-                    <ComboBoxItem Content="4 hours" />
-                    <ComboBoxItem Content="5 hours" />
-                    <ComboBoxItem Content="Never" />
-                </ComboBox>
+                <ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding OnBatteryItemSource}"
+                    SelectedValue="{Binding OnBatteryScreen}"
+                    SelectedValuePath="Value" />
             </ui:SettingsCard>
             <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox>
-                    <ComboBoxItem Content="1 minute" />
-                    <ComboBoxItem Content="2 minutes" />
-                    <ComboBoxItem Content="3 minutes (Recommended)" />
-                    <ComboBoxItem Content="5 minutes" />
-                    <ComboBoxItem Content="10 minutes" />
-                    <ComboBoxItem Content="15 minutes" />
-                    <ComboBoxItem Content="20 minutes" />
-                    <ComboBoxItem Content="25 minutes" />
-                    <ComboBoxItem Content="30 minutes" />
-                    <ComboBoxItem Content="45 minutes" />
-                    <ComboBoxItem Content="1 hour" />
-                    <ComboBoxItem Content="2 hours" />
-                    <ComboBoxItem Content="3 hours" />
-                    <ComboBoxItem Content="4 hours" />
-                    <ComboBoxItem Content="5 hours" />
-                    <ComboBoxItem Content="Never" />
-                </ComboBox>
+                <ComboBox
+                    DisplayMemberPath="Display"
+                    ItemsSource="{Binding OnBatteryItemSource}"
+                    SelectedValue="{Binding OnBatterySleep}"
+                    SelectedValuePath="Value" />
             </ui:SettingsCard>
 
             <StackPanel Orientation="Horizontal">
