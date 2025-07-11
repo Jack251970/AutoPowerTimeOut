@@ -72,7 +72,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
-        Application.Current.MainWindow = this;
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
     }

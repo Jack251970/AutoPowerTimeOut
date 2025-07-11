@@ -62,6 +62,7 @@ public partial class App : Application
         SetupPowerSettings();
         SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         AutoStartup();
+        Current.MainWindow = new MainWindow();
     }
 
     [Conditional("RELEASE")]
