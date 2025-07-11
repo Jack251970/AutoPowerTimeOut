@@ -14,7 +14,21 @@ public class TimeOutModel
         {
             Value = v,
             Display = GetDescriptionAttr(v)
-        }).ToList();
+        });
+        // Put the "Never" option at the end
+        var never = values.FirstOrDefault(v => v.Value == TimeOutLevel.Never);
+        if (never != null)
+        {
+            values = values.Where(v => v.Value != TimeOutLevel.Never).Append(never);
+        }
+        else
+        {
+            _ = values.Append(new TimeOutModel
+            {
+                Value = TimeOutLevel.Never,
+                Display = GetDescriptionAttr(TimeOutLevel.Never)
+            });
+        }
         if (pluggedIn)
         {
             // 5 minutes is recommended for plugged in
@@ -37,7 +51,7 @@ public class TimeOutModel
                 }
             }
         }
-        return values;
+        return [.. values];
     }
 
     private static string GetDescriptionAttr(Enum value)
@@ -81,5 +95,5 @@ public enum TimeOutLevel
     [Description("5 hours")]
     FiveHours = 300,
     [Description("Never")]
-    Never = 9999
+    Never = 0
 }
