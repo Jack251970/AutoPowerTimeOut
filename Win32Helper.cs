@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 
@@ -60,6 +62,11 @@ internal class Win32Helper
     public static bool SetForegroundWindow(nint handle)
     {
         return PInvoke.SetForegroundWindow(new(handle));
+    }
+
+    public static bool SetForegroundWindow(Window window)
+    {
+        return SetForegroundWindow(new WindowInteropHelper(window).Handle);
     }
 
     private static bool IsNotificationSupported()
