@@ -22,10 +22,16 @@ public partial class App : System.Windows.Application
             Header = "Exit",
             Icon = new FontIcon { Glyph = "\ue7e8" }
         };
+        exitItem.Click += (o, e) =>
+        {
+            _contextMenu.IsOpen = false;
+            Current.Shutdown();
+        };
         _contextMenu.Items.Add(exitItem);
         _notifyIcon = new NotifyIcon
         {
             Text = "Auto Power Time-out",
+            Icon = AutoPowerTimeOut.Properties.Resources.Icon,
             Visible = true
         };
         _notifyIcon.MouseClick += (o, e) =>
