@@ -68,7 +68,7 @@ public partial class App : System.Windows.Application
 
     private static void SetupPowerSettings()
     {
-        TimeOutManager.SetDisplayAndSleepTimeout(
+        Win32Helper.SetDisplayAndSleepTimeout(
             (uint)Settings.PluggedInScreen,
             (uint)Settings.OnBatteryScreen,
             (uint)Settings.PluggedInSleep,
