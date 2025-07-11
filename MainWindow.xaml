@@ -28,11 +28,20 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <TextBlock
+            <Image
+                Width="20"
                 Margin="20,4,0,0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/icon.png" />
+            <TextBlock
+                x:Name="AppTitleText"
+                Grid.Column="1"
+                Margin="12,4,0,0"
                 VerticalAlignment="Center"
-                FontSize="24"
-                Text="Auto Power Time-out" />
+                FontWeight="Bold"
+                Style="{DynamicResource CaptionTextBlockStyle}"
+                Text="Auto Power Time-out"
+                TextWrapping="NoWrap" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="12,4,12,12">
@@ -58,7 +67,7 @@
             </ui:SettingsCard>
 
             <TextBlock
-                Margin="8,4,4,4"
+                Margin="8,8,4,4"
                 VerticalAlignment="Center"
                 FontSize="14"
                 FontWeight="Bold"
