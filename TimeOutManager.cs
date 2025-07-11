@@ -4,6 +4,22 @@ namespace AutoPowerTimeOut;
 
 public static class TimeOutManager
 {
+    /// <summary>
+    /// Sets the display and sleep timeout values for both AC and DC power states.
+    /// </summary>
+    /// <param name="acDisplayMinutes">
+    /// The number of minutes to turn off display when plugged in (AC).
+    /// </param>
+    /// <param name="dcDisplayMinutes">
+    /// The number of minutes to turn off display when on battery (DC).
+    /// </param>
+    /// <param name="acSleepMinutes">
+    /// The number of minutes to put the computer to sleep when plugged in (AC).
+    /// </param>
+    /// <param name="dcSleepMinutes">
+    /// The number of minutes to put the computer to sleep when on battery (DC).
+    /// </param>
+    /// <exception cref="Exception"></exception>
     public static void SetDisplayAndSleepTimeout(uint acDisplayMinutes, uint dcDisplayMinutes,
                                                  uint acSleepMinutes, uint dcSleepMinutes)
     {
