@@ -65,15 +65,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    private readonly Settings _settings;
-
     public MainWindow()
     {
-        _settings = Settings.Load();
-        PluggedInScreen = _settings.PluggedInScreen;
-        PluggedInSleep = _settings.PluggedInSleep;
-        OnBatteryScreen = _settings.OnBatteryScreen;
-        OnBatterySleep = _settings.OnBatterySleep;
+        PluggedInScreen = App.Settings.PluggedInScreen;
+        PluggedInSleep = App.Settings.PluggedInSleep;
+        OnBatteryScreen = App.Settings.OnBatteryScreen;
+        OnBatterySleep = App.Settings.OnBatterySleep;
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
     }
@@ -83,19 +80,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         switch (e.PropertyName)
         {
             case nameof(PluggedInScreen):
-                _settings.PluggedInScreen = PluggedInScreen;
+                App.Settings.PluggedInScreen = PluggedInScreen;
                 break;
             case nameof(PluggedInSleep):
-                _settings.PluggedInSleep = PluggedInSleep;
+                App.Settings.PluggedInSleep = PluggedInSleep;
                 break;
             case nameof(OnBatteryScreen):
-                _settings.OnBatteryScreen = OnBatteryScreen;
+                App.Settings.OnBatteryScreen = OnBatteryScreen;
                 break;
             case nameof(OnBatterySleep):
-                _settings.OnBatterySleep = OnBatterySleep;
+                App.Settings.OnBatterySleep = OnBatterySleep;
                 break;
         }
-        _settings.Save();
+        App.Settings.Save();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
