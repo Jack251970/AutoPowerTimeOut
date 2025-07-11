@@ -1,5 +1,6 @@
 ﻿using iNKORE.UI.WPF.Modern.Controls;
 using Microsoft.Win32;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -71,12 +72,22 @@ public partial class App : Application
 
     private static void SetupPowerSettings()
     {
-        Win32Helper.SetDisplayAndSleepTimeout(
-            (uint)Settings.PluggedInScreen,
-            (uint)Settings.OnBatteryScreen,
-            (uint)Settings.PluggedInSleep,
-            (uint)Settings.OnBatterySleep
-        );
+        try
+        {
+            Win32Helper.SetDisplayAndSleepTimeout(
+                (uint)Settings.PluggedInScreen,
+                (uint)Settings.OnBatteryScreen,
+                (uint)Settings.PluggedInSleep,
+                (uint)Settings.OnBatterySleep
+            );
+        }
+        catch (Exception e)
+        {
+            Win32Helper.ShowNotification(
+                "Auto Power Time-out",
+                $"Failed to update power settings: {e.Message}");
+            return;
+        }
         Win32Helper.ShowNotification(
             "Auto Power Time-out",
             "Power settings have been updated successfully.");
