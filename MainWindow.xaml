@@ -35,12 +35,17 @@
                 Source="/icon.png" />
             <TextBlock
                 x:Name="AppTitleText"
-                Grid.Column="1"
                 Margin="12,4,0,0"
                 VerticalAlignment="Center"
                 FontWeight="Bold"
                 Style="{DynamicResource CaptionTextBlockStyle}"
                 Text="Auto Power Time-out"
+                TextWrapping="NoWrap" />
+            <TextBlock
+                Margin="12,4,0,0"
+                VerticalAlignment="Center"
+                Style="{DynamicResource CaptionTextBlockStyle}"
+                Text="{Binding FileVersion}"
                 TextWrapping="NoWrap" />
         </StackPanel>
 

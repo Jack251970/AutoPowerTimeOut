@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -66,14 +67,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
+    public string FileVersion { get; }
+
     public MainWindow()
     {
         PluggedInScreen = App.Settings.PluggedInScreen;
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
+        FileVersion = GetVersion();
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
+    }
+
+    private static string GetVersion()
+    {
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        return version == null ? "v0.0.0" : $"v{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
     }
 
     private void MainWindow_PropertyChanged(object? sender, PropertyChangedEventArgs e)
