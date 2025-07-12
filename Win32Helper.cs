@@ -60,6 +60,75 @@ internal class Win32Helper
         }
     }
 
+    /// <summary>
+    /// Gets the current display and sleep timeout values for both AC and DC power states.
+    /// </summary>
+    /// <param name="acDisplayMinutes">
+    /// The number of minutes to turn off display when plugged in (AC).
+    /// </param>
+    /// <param name="dcDisplayMinutes">
+    /// The number of minutes to turn off display when on battery (DC).
+    /// </param>
+    /// <param name="acSleepMinutes">
+    /// The number of minutes to put the computer to sleep when plugged in (AC).
+    /// </param>
+    /// <param name="dcSleepMinutes">
+    /// The number of minutes to put the computer to sleep when on battery (DC).
+    /// </param>
+    /// <returns>
+    /// True if the operation was successful, false otherwise.
+    /// </returns>
+    public static unsafe bool GetDisplayAndSleepTimeout(
+        out uint acDisplayMinutes, out uint dcDisplayMinutes, out uint acSleepMinutes, out uint dcSleepMinutes)
+    {
+        acDisplayMinutes = dcDisplayMinutes = acSleepMinutes = dcSleepMinutes = 0;
+
+        try
+        {
+            // Get the active power scheme
+            var result = PInvoke.PowerGetActiveScheme(null, out var pActiveScheme);
+            if (result != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            var activeScheme = *pActiveScheme;
+
+            // Read AC Display Timeout
+            var acResult = PInvoke.PowerReadACValueIndex(
+                null, activeScheme, PInvoke.GUID_VIDEO_SUBGROUP, GUID_VIDEO_TIMEOUT, out var acDisplaySec);
+            if (acResult != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            // Read DC Display Timeout
+            var dcResult = PInvoke.PowerReadDCValueIndex(
+                null, activeScheme, PInvoke.GUID_VIDEO_SUBGROUP, GUID_VIDEO_TIMEOUT, out var dcDisplaySec);
+            if (dcResult != 0)
+                return false;
+
+            // Read AC Sleep Timeout
+            acResult = PInvoke.PowerReadACValueIndex(
+                null, activeScheme, PInvoke.GUID_SLEEP_SUBGROUP, GUID_SLEEP_IDLE, out var acSleepSec);
+            if (acResult != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            // Read DC Sleep Timeout
+            dcResult = PInvoke.PowerReadDCValueIndex(
+                null, activeScheme, PInvoke.GUID_SLEEP_SUBGROUP, GUID_SLEEP_IDLE, out var dcSleepSec);
+            if (dcResult != 0)
+                return false;
+
+            acDisplayMinutes = acDisplaySec / 60;
+            dcDisplayMinutes = dcDisplaySec / 60;
+            acSleepMinutes = acSleepSec / 60;
+            dcSleepMinutes = dcSleepSec / 60;
+            return true;
+        }
+        catch
+        {
+            acDisplayMinutes = dcDisplayMinutes = acSleepMinutes = dcSleepMinutes = 0;
+            return false;
+        }
+    }
+
     public static bool SetForegroundWindow(nint handle)
     {
         return PInvoke.SetForegroundWindow(new(handle));

@@ -94,11 +94,32 @@ public partial class App : Application
     {
         try
         {
+            // Get setted values from settings
+            var preferredAcDisplayMinutes = (uint)Settings.PluggedInScreen;
+            var preferredDcDisplayMinutes = (uint)Settings.OnBatteryScreen;
+            var preferredAcSleepMinutes = (uint)Settings.PluggedInSleep;
+            var preferredDcSleepMinutes = (uint)Settings.OnBatterySleep;
+
+            // Check if the current settings match the preferred settings
+            if (Win32Helper.GetDisplayAndSleepTimeout(
+                out var acDisplayMinutes,
+                out var dcDisplayMinutes,
+                out var acSleepMinutes,
+                out var dcSleepMinutes) &&
+                preferredAcDisplayMinutes == acDisplayMinutes &&
+                preferredDcDisplayMinutes == dcDisplayMinutes &&
+                preferredAcSleepMinutes == acSleepMinutes &&
+                preferredDcSleepMinutes == dcSleepMinutes)
+            {
+                return;   
+            }
+
+            // Set the power settings
             Win32Helper.SetDisplayAndSleepTimeout(
-                (uint)Settings.PluggedInScreen,
-                (uint)Settings.OnBatteryScreen,
-                (uint)Settings.PluggedInSleep,
-                (uint)Settings.OnBatterySleep
+                preferredAcDisplayMinutes,
+                preferredDcDisplayMinutes,
+                preferredAcSleepMinutes,
+                preferredDcSleepMinutes
             );
         }
         catch (Exception e)
