@@ -44,8 +44,11 @@ public partial class App : Application
             switch (e.Button)
             {
                 case MouseButtons.Left:
+
+                    // Show the main window and bring it to the foreground
                     Current.MainWindow.Show();
                     Win32Helper.BringToForegroundEx(Current.MainWindow);
+
                     break;
                 case MouseButtons.Right:
 
@@ -53,10 +56,10 @@ public partial class App : Application
                     // Get context menu handle and bring it to the foreground
                     if (PresentationSource.FromVisual(_contextMenu) is HwndSource hwndSource)
                     {
-                        Win32Helper.SetForegroundWindow(hwndSource.Handle);
+                        Win32Helper.BringToForegroundEx(hwndSource.Handle);
                     }
-
                     _contextMenu.Focus();
+
                     break;
             }
         };

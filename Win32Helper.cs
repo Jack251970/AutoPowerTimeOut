@@ -95,6 +95,16 @@ internal class Win32Helper
         }
     }
 
+    public static void BringToForegroundEx(Window window)
+    {
+        BringToForegroundEx(new HWND(new WindowInteropHelper(window).Handle));
+    }
+
+    public static void BringToForegroundEx(nint handle)
+    {
+        BringToForegroundEx(new HWND(handle));
+    }
+
     /// <summary>
     /// Brings the app window to foreground. From https://github.com/files-community/Files.
     /// </summary>
@@ -106,9 +116,8 @@ internal class Win32Helper
     /// - <a href="https://stackoverflow.com/questions/916259/win32-bring-a-window-to-top" />
     /// </remarks>
     /// <param name="window">The window to bring.</param>
-    public static unsafe void BringToForegroundEx(Window window)
+    private static unsafe void BringToForegroundEx(HWND hWnd)
     {
-        var hWnd = new HWND(new WindowInteropHelper(window).Handle);
         var hCurWnd = PInvoke.GetForegroundWindow();
         var dwMyID = PInvoke.GetCurrentThreadId();
         var dwCurID = PInvoke.GetWindowThreadProcessId(hCurWnd);
