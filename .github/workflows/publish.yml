@@ -45,11 +45,15 @@ jobs:
          $version = [system.diagnostics.fileversioninfo]::getversioninfo("bin\Release\net9.0-windows10.0.19041.0\AutoPowerTimeOut.dll").fileversion
          echo "release_version=$version" | out-file -filepath $env:github_env -encoding utf-8 -append
 
+      # Publish the project
+      - name: Publish
+        run: dotnet publish ${{ env.Project_Path }} -p:PublishProfile=Net9.0-SelfContained.pubxml
+
       # Zip the output files
       - name: Zip files
         run: |
           $zipName = "AutoPowerTimeOut-v${{ env.release_version }}.zip"
-          Compress-Archive -Path "bin\Release\net9.0-windows10.0.19041.0\*" -DestinationPath $zipName
+          Compress-Archive -Path "bin\Publish\net9.0-windows10.0.19041.0\*" -DestinationPath $zipName
 
       # Publish to GitHub releases
       - name: Publish
