@@ -53,7 +53,7 @@ jobs:
       - name: Zip files
         run: |
           $zipName = "AutoPowerTimeOut-v${{ env.release_version }}.zip"
-          Compress-Archive -Path "bin\Publish\net9.0-windows10.0.19041.0\*" -DestinationPath $zipName
+          Compress-Archive -Path "bin\Publish\*" -DestinationPath $zipName
 
       # Publish to GitHub releases
       - name: Publish
