@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Timer = System.Timers.Timer;
+using ElapsedEventArgs = System.Timers.ElapsedEventArgs;
 
 namespace AutoPowerTimeOut;
 
@@ -50,16 +51,16 @@ public partial class App : Application
 
                     // Show the main window and bring it to the foreground
                     Current.MainWindow.Show();
-                    Win32Helper.BringToForegroundEx(Current.MainWindow);
+                    Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
 
                     break;
                 case MouseButtons.Right:
 
                     _contextMenu.IsOpen = true;
-                    // Get context menu handle and bring it to the foreground
+                    // Get context menu handle and bring it to the foreground at the topmost
                     if (PresentationSource.FromVisual(_contextMenu) is HwndSource hwndSource)
                     {
-                        Win32Helper.BringToForegroundEx(hwndSource.Handle);
+                        Win32Helper.BringToForegroundEx(hwndSource.Handle, true);
                     }
                     _contextMenu.Focus();
 
@@ -76,7 +77,7 @@ public partial class App : Application
         _timer.Start();
     }
 
-    private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     {
         SetupPowerSettings(false);
     }

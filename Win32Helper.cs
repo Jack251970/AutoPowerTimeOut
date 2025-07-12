@@ -129,11 +129,6 @@ internal class Win32Helper
         }
     }
 
-    public static bool SetForegroundWindow(nint handle)
-    {
-        return PInvoke.SetForegroundWindow(new(handle));
-    }
-
     private static bool IsNotificationSupported()
     {
         // Notifications only supported on Windows 10 19041+
@@ -164,14 +159,14 @@ internal class Win32Helper
         }
     }
 
-    public static void BringToForegroundEx(Window window)
+    public static void BringToForegroundEx(Window window, bool topMost)
     {
-        BringToForegroundEx(new HWND(new WindowInteropHelper(window).Handle));
+        BringToForegroundEx(new HWND(new WindowInteropHelper(window).Handle), topMost);
     }
 
-    public static void BringToForegroundEx(nint handle)
+    public static void BringToForegroundEx(nint handle, bool topMost)
     {
-        BringToForegroundEx(new HWND(handle));
+        BringToForegroundEx(new HWND(handle), topMost);
     }
 
     /// <summary>
@@ -184,8 +179,9 @@ internal class Win32Helper
     /// <br/>
     /// - <a href="https://stackoverflow.com/questions/916259/win32-bring-a-window-to-top" />
     /// </remarks>
-    /// <param name="window">The window to bring.</param>
-    private static unsafe void BringToForegroundEx(HWND hWnd)
+    /// <param name="hWnd">The window handle to bring.</param>
+    /// <param name="topMost">If true, the window will be set as topmost before bringing it to the foreground.</param>
+    private static unsafe void BringToForegroundEx(HWND hWnd, bool topMost)
     {
         var hCurWnd = PInvoke.GetForegroundWindow();
         var dwMyID = PInvoke.GetCurrentThreadId();
@@ -193,8 +189,13 @@ internal class Win32Helper
 
         PInvoke.AttachThreadInput(dwCurID, dwMyID, true);
 
+        // Set the window to be the topmost window
         PInvoke.SetWindowPos(hWnd, (HWND)(-1), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
-        PInvoke.SetWindowPos(hWnd, (HWND)(-2), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+        if (!topMost)
+        {
+            // Restore the window to its original position
+            PInvoke.SetWindowPos(hWnd, (HWND)(-2), 0, 0, 0, 0, SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW | SET_WINDOW_POS_FLAGS.SWP_NOSIZE | SET_WINDOW_POS_FLAGS.SWP_NOMOVE);
+        }
         PInvoke.SetForegroundWindow(hWnd);
         PInvoke.SetFocus(hWnd);
         PInvoke.SetActiveWindow(hWnd);
