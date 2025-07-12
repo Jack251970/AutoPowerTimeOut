@@ -45,7 +45,7 @@ public partial class App : Application
             {
                 case MouseButtons.Left:
                     Current.MainWindow.Show();
-                    Win32Helper.SetForegroundWindow(Current.MainWindow);
+                    Win32Helper.BringToForegroundEx(Current.MainWindow);
                     break;
                 case MouseButtons.Right:
 

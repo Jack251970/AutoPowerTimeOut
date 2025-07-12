@@ -6,3 +6,10 @@ GUID_VIDEO_SUBGROUP
 GUID_SLEEP_SUBGROUP
 
 SetForegroundWindow
+GetForegroundWindow
+GetCurrentThreadId
+GetWindowThreadProcessId
+AttachThreadInput
+SetWindowPos
+SetFocus
+SetActiveWindow
