@@ -9,6 +9,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using MouseButtons = System.Windows.Forms.MouseButtons;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
+using Timer = System.Timers.Timer;
 
 namespace AutoPowerTimeOut;
 
@@ -18,6 +19,8 @@ public partial class App : Application
 
     private NotifyIcon _notifyIcon = null!;
     private readonly ContextMenu _contextMenu = new();
+
+    private readonly Timer _timer = new();
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
@@ -63,10 +66,19 @@ public partial class App : Application
                     break;
             }
         };
-        SetupPowerSettings();
+        SetupPowerSettings(true);
         SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         AutoStartup();
         Current.MainWindow = new MainWindow();
+        _timer.Elapsed += Timer_Elapsed;
+        _timer.Interval = 1000 * 60 * 3; // 3 minutes since it is the recommended time-out for battery mode
+        _timer.AutoReset = true;
+        _timer.Start();
+    }
+
+    private void Timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        SetupPowerSettings(false);
     }
 
     [Conditional("RELEASE")]
@@ -86,11 +98,11 @@ public partial class App : Application
     {
         if (e.Mode == PowerModes.Resume)
         {
-            SetupPowerSettings();
+            SetupPowerSettings(true);
         }
     }
 
-    private static void SetupPowerSettings()
+    private static void SetupPowerSettings(bool showFailedNotification)
     {
         try
         {
@@ -111,6 +123,10 @@ public partial class App : Application
                 preferredAcSleepMinutes == acSleepMinutes &&
                 preferredDcSleepMinutes == dcSleepMinutes)
             {
+                if (showFailedNotification)
+                {
+                    Win32Helper.ShowNotification("Power settings have been updated successfully.");
+                }
                 return;   
             }
 
@@ -124,9 +140,13 @@ public partial class App : Application
         }
         catch (Exception e)
         {
-            Win32Helper.ShowNotification($"Failed to update power settings: {e.Message}");
+            if (showFailedNotification)
+            {
+                Win32Helper.ShowNotification($"Failed to update power settings: {e.Message}");
+            }
             return;
         }
+
         Win32Helper.ShowNotification("Power settings have been updated successfully.");
     }
 
@@ -142,5 +162,6 @@ public partial class App : Application
         _contextMenu.IsOpen = false;
         _notifyIcon?.Dispose();
         SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+        _timer.Dispose();
     }
 }
