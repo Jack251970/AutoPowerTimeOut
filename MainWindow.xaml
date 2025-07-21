@@ -105,6 +105,13 @@
                     Content="Choosing energy efficient sleep settings"
                     NavigateUri="https://go.microsoft.com/fwlink/?linkid=2185388" />
             </StackPanel>
+
+            <StackPanel Orientation="Vertical">
+                <CheckBox
+                    Margin="8,4,4,4"
+                    Content="Show notifications when power settings have been updated"
+                    IsChecked="{Binding ShowNotifications, Mode=TwoWay}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

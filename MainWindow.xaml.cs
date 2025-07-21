@@ -69,12 +69,27 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public string FileVersion { get; }
 
+    private bool _showNotifications;
+    public bool ShowNotifications
+    {
+        get => _showNotifications;
+        set
+        {
+            if (_showNotifications != value)
+            {
+                _showNotifications = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public MainWindow()
     {
         PluggedInScreen = App.Settings.PluggedInScreen;
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
+        ShowNotifications = App.Settings.ShowNotifications;
         FileVersion = GetVersion();
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
@@ -101,6 +116,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 break;
             case nameof(OnBatterySleep):
                 App.Settings.OnBatterySleep = OnBatterySleep;
+                break;
+            case nameof(ShowNotifications):
+                App.Settings.ShowNotifications = ShowNotifications;
                 break;
         }
         App.Settings.Save();

@@ -11,6 +11,8 @@ public class Settings
     public TimeOutLevel OnBatteryScreen { get; set; } = TimeOutLevel.ThreeMinutes;
     public TimeOutLevel OnBatterySleep { get; set; } = TimeOutLevel.ThreeMinutes;
 
+    public bool ShowNotifications { get; set; } = true;
+
     public static Settings Load()
     {
         if (!File.Exists(Constants.SettingsPath))

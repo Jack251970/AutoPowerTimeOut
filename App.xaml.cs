@@ -124,7 +124,7 @@ public partial class App : Application
                 preferredAcSleepMinutes == acSleepMinutes &&
                 preferredDcSleepMinutes == dcSleepMinutes)
             {
-                if (showFailedNotification)
+                if (Settings.ShowNotifications && showFailedNotification)
                 {
                     Win32Helper.ShowNotification("Power settings have been updated successfully.");
                 }
@@ -148,7 +148,10 @@ public partial class App : Application
             return;
         }
 
-        Win32Helper.ShowNotification("Power settings have been updated successfully.");
+        if (Settings.ShowNotifications)
+        {
+            Win32Helper.ShowNotification("Power settings have been updated successfully.");
+        }
     }
 
     private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
