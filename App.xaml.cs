@@ -1,6 +1,5 @@
 ﻿using iNKORE.UI.WPF.Modern.Controls;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -68,7 +67,6 @@ public partial class App : Application
             }
         };
         SetupPowerSettings(true);
-        SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         AutoStartup();
         Current.MainWindow = new MainWindow();
         _timer.Elapsed += Timer_Elapsed;
@@ -92,14 +90,6 @@ public partial class App : Application
         catch (Exception e)
         {
             Win32Helper.ShowNotification($"Failed to register logon task: {e.Message}");
-        }
-    }
-
-    private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
-    {
-        if (e.Mode == PowerModes.Resume)
-        {
-            SetupPowerSettings(true);
         }
     }
 
@@ -165,7 +155,6 @@ public partial class App : Application
         ToastNotificationManagerCompat.Uninstall();
         _contextMenu.IsOpen = false;
         _notifyIcon?.Dispose();
-        SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
         _timer.Dispose();
     }
 }
