@@ -144,7 +144,7 @@ internal class Win32Helper
     /// <param name="acLidOption"></param>
     /// <param name="dcLidOption"></param>
     /// <exception cref="Exception"></exception>
-    public static unsafe void SetLidPowerSleepButtonControls(
+    public static unsafe void SetLidPowerSleepButtonControlOptions(
         LidPowerSleepButtonOption acPowerOption,
         LidPowerSleepButtonOption dcPowerOption,
         LidPowerSleepButtonOption acSleepOption,
