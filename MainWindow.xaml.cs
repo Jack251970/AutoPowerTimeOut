@@ -26,18 +26,49 @@ public partial class MainWindow : Window
     [ObservableProperty]
     private TimeOutLevel _onBatterySleep;
 
+    public List<LidPowerSleepButtonOptionModel> LidPowerSleepButtonOptionItemSource { get; } = LidPowerSleepButtonOptionModel.GetValues();
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _pluggedInPowerButton;
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _pluggedInSleepButton;
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _pluggedInLidButton;
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _onBatteryPowerButton;
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _onBatterySleepButton;
+
+    [ObservableProperty]
+    private LidPowerSleepButtonOption _onBatteryLidButton;
+
     [ObservableProperty]
     private bool _showNotifications;
 
     public MainWindow()
     {
         FileVersion = GetVersion();
+
+        InitializeComponent();
+
         PluggedInScreen = App.Settings.PluggedInScreen;
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
+
+        PluggedInPowerButton = App.Settings.PluggedInPowerButton;
+        PluggedInSleepButton = App.Settings.PluggedInSleepButton;
+        PluggedInLidButton = App.Settings.PluggedInLidButton;
+        OnBatteryPowerButton = App.Settings.OnBatteryPowerButton;
+        OnBatterySleepButton = App.Settings.OnBatterySleepButton;
+        OnBatteryLidButton = App.Settings.OnBatteryLidButton;
+
         ShowNotifications = App.Settings.ShowNotifications;
-        InitializeComponent();
+
         PropertyChanged += MainWindow_PropertyChanged;
     }
 
@@ -62,6 +93,24 @@ public partial class MainWindow : Window
                 break;
             case nameof(OnBatterySleep):
                 App.Settings.OnBatterySleep = OnBatterySleep;
+                break;
+            case nameof(PluggedInPowerButton):
+                App.Settings.PluggedInPowerButton = PluggedInPowerButton;
+                break;
+            case nameof(PluggedInSleepButton):
+                App.Settings.PluggedInSleepButton = PluggedInSleepButton;
+                break;
+            case nameof(PluggedInLidButton):
+                App.Settings.PluggedInLidButton = PluggedInLidButton;
+                break;
+            case nameof(OnBatteryPowerButton):
+                App.Settings.OnBatteryPowerButton = OnBatteryPowerButton;
+                break;
+            case nameof(OnBatterySleepButton):
+                App.Settings.OnBatterySleepButton = OnBatterySleepButton;
+                break;
+            case nameof(OnBatteryLidButton):
+                App.Settings.OnBatteryLidButton = OnBatteryLidButton;
                 break;
             case nameof(ShowNotifications):
                 App.Settings.ShowNotifications = ShowNotifications;

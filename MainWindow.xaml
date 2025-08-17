@@ -51,13 +51,13 @@
 
         <ui:ScrollViewerEx Grid.Row="1">
             <ikw:SimpleStackPanel Margin="16,0,16,16" Spacing="4">
-                <ui:SettingsExpander Description="Choose what happens when yur device is idle for a specified time" Header="Screen, sleep, and hibernate time-outs">
+                <ui:SettingsExpander Description="Choose what happens when yur device is idle for a specified time" Header="Screen, sleep &amp; hibernate time-outs">
                     <ui:SettingsExpander.ItemsHeader>
                         <ikw:SimpleStackPanel Spacing="1">
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="4">
                                     <TextBlock
-                                        Margin="4,8,4,4"
+                                        Margin="4"
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Bold"
@@ -81,9 +81,9 @@
                             </Border>
 
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="4">
                                     <TextBlock
-                                        Margin="4,8,4,4"
+                                        Margin="4"
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Bold"
@@ -107,9 +107,9 @@
                             </Border>
 
                             <ikw:SimpleStackPanel Background="{DynamicResource SettingsCardBackground}" Spacing="4">
-                                <StackPanel Margin="8" Orientation="Horizontal">
+                                <StackPanel Margin="8,0,8,8" Orientation="Horizontal">
                                     <TextBlock
-                                        Margin="4,0,4,4"
+                                        Margin="4"
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Bold"
@@ -122,6 +122,78 @@
                                         NavigateUri="https://go.microsoft.com/fwlink/?linkid=2185388" />
                                 </StackPanel>
                             </ikw:SimpleStackPanel>
+                        </ikw:SimpleStackPanel>
+                    </ui:SettingsExpander.ItemsHeader>
+                </ui:SettingsExpander>
+
+                <ui:SettingsExpander Description="Choose what happens when you interact with your device's physical controls" Header="Lid, power &amp; sleep button controls">
+                    <ui:SettingsExpander.ItemsHeader>
+                        <ikw:SimpleStackPanel Spacing="1">
+                            <Border Background="{DynamicResource SettingsCardBackground}">
+                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="4">
+                                    <TextBlock
+                                        Margin="4"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
+                                        Text="Plugged in" />
+                                    <ui:SettingsCard Header="Pressing the power button will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding PluggedInPowerButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                    <ui:SettingsCard Header="Pressing the sleep button will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding PluggedInSleepButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                    <ui:SettingsCard Header="Closing the lid will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding PluggedInLidButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                </ikw:SimpleStackPanel>
+                            </Border>
+
+                            <Border Background="{DynamicResource SettingsCardBackground}">
+                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="4">
+                                    <TextBlock
+                                        Margin="4"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        FontWeight="Bold"
+                                        Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
+                                        Text="On battery" />
+                                    <ui:SettingsCard Header="Pressing the power button will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding OnBatteryPowerButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                    <ui:SettingsCard Header="Pressing the sleep button will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding OnBatterySleepButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                    <ui:SettingsCard Header="Closing the lid will make my PC">
+                                        <ComboBox
+                                            DisplayMemberPath="Display"
+                                            ItemsSource="{Binding LidPowerSleepButtonOptionItemSource}"
+                                            SelectedValue="{Binding OnBatteryLidButton}"
+                                            SelectedValuePath="Value" />
+                                    </ui:SettingsCard>
+                                </ikw:SimpleStackPanel>
+                            </Border>
                         </ikw:SimpleStackPanel>
                     </ui:SettingsExpander.ItemsHeader>
                 </ui:SettingsExpander>
