@@ -122,8 +122,6 @@
                                         NavigateUri="https://go.microsoft.com/fwlink/?linkid=2185388" />
                                 </StackPanel>
                             </ikw:SimpleStackPanel>
-
-
                         </ikw:SimpleStackPanel>
                     </ui:SettingsExpander.ItemsHeader>
                 </ui:SettingsExpander>
