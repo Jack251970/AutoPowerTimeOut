@@ -52,6 +52,10 @@
         <ui:ScrollViewerEx Grid.Row="1">
             <ikw:SimpleStackPanel Margin="16,0,16,16" Spacing="4">
                 <ui:SettingsExpander Description="Choose what happens when yur device is idle for a specified time" Header="Screen, sleep &amp; hibernate time-outs">
+                    <ui:SettingsExpander.HeaderIcon>
+                        <ui:FontIcon Glyph="&#xE708;" />
+                    </ui:SettingsExpander.HeaderIcon>
+
                     <ui:SettingsExpander.ItemsHeader>
                         <ikw:SimpleStackPanel Spacing="1">
                             <Border Background="{DynamicResource SettingsCardBackground}">
@@ -127,6 +131,10 @@
                 </ui:SettingsExpander>
 
                 <ui:SettingsExpander Description="Choose what happens when you interact with your device's physical controls" Header="Lid, power &amp; sleep button controls">
+                    <ui:SettingsExpander.HeaderIcon>
+                        <ui:FontIcon Glyph="&#xE71D;" />
+                    </ui:SettingsExpander.HeaderIcon>
+
                     <ui:SettingsExpander.ItemsHeader>
                         <ikw:SimpleStackPanel Spacing="1">
                             <Border Background="{DynamicResource SettingsCardBackground}">
@@ -199,6 +207,10 @@
                 </ui:SettingsExpander>
 
                 <ui:SettingsCard Header="Show notifications when power settings have been updated">
+                    <ui:SettingsCard.HeaderIcon>
+                        <ui:FontIcon Glyph="&#xEC42;" />
+                    </ui:SettingsCard.HeaderIcon>
+
                     <ui:ToggleSwitch IsOn="{Binding ShowNotifications, Mode=TwoWay}" />
                 </ui:SettingsCard>
             </ikw:SimpleStackPanel>
