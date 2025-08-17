@@ -11,8 +11,13 @@ namespace AutoPowerTimeOut;
 
 internal class Win32Helper
 {
-    public static Guid GUID_VIDEO_TIMEOUT = new("3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e");
-    public static Guid GUID_SLEEP_IDLE = new("29f6c1db-86da-48c5-9fdb-f2b67b1f44da");
+    private static readonly Guid GUID_VIDEO_TIMEOUT = new("3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e");
+    private static readonly Guid GUID_SLEEP_IDLE = new("29f6c1db-86da-48c5-9fdb-f2b67b1f44da");
+
+    private static readonly Guid SUB_BUTTONS = new("4f971e89-eebd-4455-a8de-9e59040e7347");
+    private static readonly Guid POWERBUTTON_ACTION = new("7648efa3-dd9c-4e3e-b566-50f929386280");
+    private static readonly Guid SLEEPBUTTON_ACTION = new("96996bc0-ad50-47ec-923b-6f41874dd9eb");
+    private static readonly Guid LIDCLOSE_ACTION = new("5ca83367-6e45-459f-a27b-476b1d01c936");
 
     /// <summary>
     /// Sets the display and sleep timeout values for both AC and DC power states.
@@ -125,6 +130,125 @@ internal class Win32Helper
         catch
         {
             acDisplayMinutes = dcDisplayMinutes = acSleepMinutes = dcSleepMinutes = 0;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Sets the power button, sleep button, and lid close actions for both AC and DC power states.
+    /// </summary>
+    /// <param name="acPowerOption"></param>
+    /// <param name="dcPowerOption"></param>
+    /// <param name="acSleepOption"></param>
+    /// <param name="dcSleepOption"></param>
+    /// <param name="acLidOption"></param>
+    /// <param name="dcLidOption"></param>
+    /// <exception cref="Exception"></exception>
+    public static unsafe void SetLidPowerSleepButtonControls(
+        LidPowerSleepButtonOption acPowerOption,
+        LidPowerSleepButtonOption dcPowerOption,
+        LidPowerSleepButtonOption acSleepOption,
+        LidPowerSleepButtonOption dcSleepOption,
+        LidPowerSleepButtonOption acLidOption,
+        LidPowerSleepButtonOption dcLidOption)
+    {
+        try
+        {
+            var res = PInvoke.PowerGetActiveScheme(null, out var pActiveScheme);
+            if (res != WIN32_ERROR.ERROR_SUCCESS)
+            {
+                throw new Exception($"PowerGetActiveScheme failed: {res}");
+            }
+
+            var activeScheme = *pActiveScheme;
+
+            // Set values
+            _ = PInvoke.PowerWriteACValueIndex(null, activeScheme, SUB_BUTTONS, POWERBUTTON_ACTION, (uint)acPowerOption);
+            _ = PInvoke.PowerWriteDCValueIndex(null, activeScheme, SUB_BUTTONS, POWERBUTTON_ACTION, (uint)dcPowerOption);
+
+            _ = PInvoke.PowerWriteACValueIndex(null, activeScheme, SUB_BUTTONS, SLEEPBUTTON_ACTION, (uint)acSleepOption);
+            _ = PInvoke.PowerWriteDCValueIndex(null, activeScheme, SUB_BUTTONS, SLEEPBUTTON_ACTION, (uint)dcSleepOption);
+
+            _ = PInvoke.PowerWriteACValueIndex(null, activeScheme, SUB_BUTTONS, LIDCLOSE_ACTION, (uint)acLidOption);
+            _ = PInvoke.PowerWriteDCValueIndex(null, activeScheme, SUB_BUTTONS, LIDCLOSE_ACTION, (uint)dcLidOption);
+
+            // Commit changes
+            _ = PInvoke.PowerSetActiveScheme(null, activeScheme);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to set power settings", ex);
+        }
+
+        // Power button
+        
+    }
+
+    /// <summary>
+    /// Gets the current power options for lid, power button, and sleep button actions.
+    /// </summary>
+    /// <param name="acPowerOption"></param>
+    /// <param name="dcPowerOption"></param>
+    /// <param name="acSleepOption"></param>
+    /// <param name="dcSleepOption"></param>
+    /// <param name="acLidOption"></param>
+    /// <param name="dcLidOption"></param>
+    /// <returns></returns>
+    public static unsafe bool GetLidPowerSleepButtonControlOptions(
+        out LidPowerSleepButtonOption acPowerOption,
+        out LidPowerSleepButtonOption dcPowerOption,
+        out LidPowerSleepButtonOption acSleepOption,
+        out LidPowerSleepButtonOption dcSleepOption,
+        out LidPowerSleepButtonOption acLidOption,
+        out LidPowerSleepButtonOption dcLidOption)
+    {
+        acPowerOption = dcPowerOption = acSleepOption = dcSleepOption = acLidOption = dcLidOption = LidPowerSleepButtonOption.Sleep;
+
+        try
+        {
+            // Get the active power scheme
+            var result = PInvoke.PowerGetActiveScheme(null, out var pActiveScheme);
+            if (result != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            var activeScheme = *pActiveScheme;
+
+            // Read values
+            var acResult = PInvoke.PowerReadACValueIndex(null, activeScheme, SUB_BUTTONS, POWERBUTTON_ACTION, out var acPower);
+            if (acResult != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            var dcResult = PInvoke.PowerReadDCValueIndex(null, activeScheme, SUB_BUTTONS, POWERBUTTON_ACTION, out var dcPower);
+            if (dcResult != 0)
+                return false;
+
+            acResult = PInvoke.PowerReadACValueIndex(null, activeScheme, SUB_BUTTONS, SLEEPBUTTON_ACTION, out var acSleep);
+            if (acResult != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            dcResult = PInvoke.PowerReadDCValueIndex(null, activeScheme, SUB_BUTTONS, SLEEPBUTTON_ACTION, out var dcSleep);
+            if (dcResult != 0)
+                return false;
+
+            acResult = PInvoke.PowerReadACValueIndex(null, activeScheme, SUB_BUTTONS, LIDCLOSE_ACTION, out var acLid);
+            if (acResult != WIN32_ERROR.ERROR_SUCCESS)
+                return false;
+
+            dcResult = PInvoke.PowerReadDCValueIndex(null, activeScheme, SUB_BUTTONS, LIDCLOSE_ACTION, out var dcLid);
+            if (dcResult != 0)
+                return false;
+
+            // Cast to enum
+            acPowerOption = (LidPowerSleepButtonOption)acPower;
+            dcPowerOption = (LidPowerSleepButtonOption)dcPower;
+            acSleepOption = (LidPowerSleepButtonOption)acSleep;
+            dcSleepOption = (LidPowerSleepButtonOption)dcSleep;
+            acLidOption = (LidPowerSleepButtonOption)acLid;
+            dcLidOption = (LidPowerSleepButtonOption)dcLid;
+            return true;
+        }
+        catch
+        {
             return false;
         }
     }
