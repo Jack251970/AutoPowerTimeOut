@@ -55,7 +55,7 @@
                     <ui:SettingsExpander.ItemsHeader>
                         <ikw:SimpleStackPanel Spacing="1">
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="2">
                                     <TextBlock
                                         Margin="4"
                                         VerticalAlignment="Center"
@@ -81,7 +81,7 @@
                             </Border>
 
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="2">
                                     <TextBlock
                                         Margin="4"
                                         VerticalAlignment="Center"
@@ -130,7 +130,7 @@
                     <ui:SettingsExpander.ItemsHeader>
                         <ikw:SimpleStackPanel Spacing="1">
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,12,8,12" Spacing="2">
                                     <TextBlock
                                         Margin="4"
                                         VerticalAlignment="Center"
@@ -163,7 +163,7 @@
                             </Border>
 
                             <Border Background="{DynamicResource SettingsCardBackground}">
-                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="4">
+                                <ikw:SimpleStackPanel Margin="8,8,8,12" Spacing="2">
                                     <TextBlock
                                         Margin="4"
                                         VerticalAlignment="Center"
