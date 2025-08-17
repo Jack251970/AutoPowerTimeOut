@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
     xmlns:local="clr-namespace:AutoPowerTimeOut"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
@@ -18,7 +19,6 @@
     ui:WindowHelper.UseModernWindowStyle="True"
     Closing="Window_Closing"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    SizeToContent="Height"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
@@ -49,69 +49,83 @@
                 TextWrapping="NoWrap" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="12,4,12,12">
-            <TextBlock
-                Margin="8,4,4,4"
-                VerticalAlignment="Center"
-                FontSize="14"
-                FontWeight="Bold"
-                Text="Plugged in" />
-            <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding PluggedInItemSource}"
-                    SelectedValue="{Binding PluggedInScreen}"
-                    SelectedValuePath="Value" />
-            </ui:SettingsCard>
-            <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding PluggedInItemSource}"
-                    SelectedValue="{Binding PluggedInSleep}"
-                    SelectedValuePath="Value" />
-            </ui:SettingsCard>
+        <ui:ScrollViewerEx Grid.Row="1">
+            <ikw:SimpleStackPanel Margin="8" Spacing="4">
+                <ui:SettingsExpander Description="Choose what happens when yur device is idle for a specified time" Header="Screen, sleep, and hibernate time-outs">
+                    <ui:SettingsExpander.ItemsHeader>
+                        <ikw:SimpleStackPanel
+                            Margin="0,0,0,4"
+                            Background="{DynamicResource SettingsCardBackground}"
+                            Spacing="4">
+                            <TextBlock
+                                Margin="12,16,12,4"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
+                                Text="Plugged in" />
+                            <ui:SettingsCard Margin="8,0,8,0" Header="Turn my screen off after">
+                                <ComboBox
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding PluggedInItemSource}"
+                                    SelectedValue="{Binding PluggedInScreen}"
+                                    SelectedValuePath="Value" />
+                            </ui:SettingsCard>
+                            <ui:SettingsCard Margin="8,0,8,0" Header="Turn my screen off after">
+                                <ComboBox
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding PluggedInItemSource}"
+                                    SelectedValue="{Binding PluggedInSleep}"
+                                    SelectedValuePath="Value" />
+                            </ui:SettingsCard>
 
-            <TextBlock
-                Margin="8,8,4,4"
-                VerticalAlignment="Center"
-                FontSize="14"
-                FontWeight="Bold"
-                Text="On battery" />
-            <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding OnBatteryItemSource}"
-                    SelectedValue="{Binding OnBatteryScreen}"
-                    SelectedValuePath="Value" />
-            </ui:SettingsCard>
-            <ui:SettingsCard Margin="4" Header="Turn my screen off after">
-                <ComboBox
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding OnBatteryItemSource}"
-                    SelectedValue="{Binding OnBatterySleep}"
-                    SelectedValuePath="Value" />
-            </ui:SettingsCard>
+                            <TextBlock
+                                Margin="12,16,12,4"
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
+                                Text="On battery" />
+                            <ui:SettingsCard Margin="8,0,8,0" Header="Turn my screen off after">
+                                <ComboBox
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding OnBatteryItemSource}"
+                                    SelectedValue="{Binding OnBatteryScreen}"
+                                    SelectedValuePath="Value" />
+                            </ui:SettingsCard>
+                            <ui:SettingsCard Margin="8,0,8,0" Header="Turn my screen off after">
+                                <ComboBox
+                                    DisplayMemberPath="Display"
+                                    ItemsSource="{Binding OnBatteryItemSource}"
+                                    SelectedValue="{Binding OnBatterySleep}"
+                                    SelectedValuePath="Value" />
+                            </ui:SettingsCard>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                    Margin="8,4,4,4"
-                    VerticalAlignment="Center"
-                    FontSize="14"
-                    FontWeight="Bold"
-                    Text="Related links" />
-                <ui:HyperlinkButton
-                    Margin="4"
-                    VerticalAlignment="Center"
-                    Content="Choosing energy efficient sleep settings"
-                    NavigateUri="https://go.microsoft.com/fwlink/?linkid=2185388" />
-            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    Margin="12,0,12,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
+                                    Text="Related links" />
+                                <ui:HyperlinkButton
+                                    Margin="4"
+                                    VerticalAlignment="Center"
+                                    Content="Choosing energy efficient sleep settings"
+                                    NavigateUri="https://go.microsoft.com/fwlink/?linkid=2185388" />
+                            </StackPanel>
 
-            <StackPanel Orientation="Vertical">
-                <CheckBox
-                    Margin="8,4,4,4"
-                    Content="Show notifications when power settings have been updated"
-                    IsChecked="{Binding ShowNotifications, Mode=TwoWay}" />
-            </StackPanel>
-        </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <CheckBox
+                                    Margin="12,0,12,16"
+                                    Content="Show notifications when power settings have been updated"
+                                    IsChecked="{Binding ShowNotifications, Mode=TwoWay}" />
+                            </StackPanel>
+                        </ikw:SimpleStackPanel>
+                    </ui:SettingsExpander.ItemsHeader>
+                </ui:SettingsExpander>
+            </ikw:SimpleStackPanel>
+        </ui:ScrollViewerEx>
     </Grid>
 </Window>
