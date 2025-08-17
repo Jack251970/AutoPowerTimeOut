@@ -1,96 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace AutoPowerTimeOut;
 
-public partial class MainWindow : Window, INotifyPropertyChanged
+[INotifyPropertyChanged]
+public partial class MainWindow : Window
 {
+    public string FileVersion { get; }
+
     public List<TimeOutModel> PluggedInItemSource { get; set; } = TimeOutModel.GetValues(true);
     public List<TimeOutModel> OnBatteryItemSource { get; set; } = TimeOutModel.GetValues(false);
 
+    [ObservableProperty]
     private TimeOutLevel _pluggedInScreen;
-    public TimeOutLevel PluggedInScreen
-    {
-        get => _pluggedInScreen;
-        set
-        {
-            if (_pluggedInScreen != value)
-            {
-                _pluggedInScreen = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
+    [ObservableProperty]
     private TimeOutLevel _pluggedInSleep;
-    public TimeOutLevel PluggedInSleep
-    {
-        get => _pluggedInSleep;
-        set
-        {
-            if (_pluggedInSleep != value)
-            {
-                _pluggedInSleep = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
+    [ObservableProperty]
     private TimeOutLevel _onBatteryScreen;
-    public TimeOutLevel OnBatteryScreen
-    {
-        get => _onBatteryScreen;
-        set
-        {
-            if (_onBatteryScreen != value)
-            {
-                _onBatteryScreen = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
+    [ObservableProperty]
     private TimeOutLevel _onBatterySleep;
-    public TimeOutLevel OnBatterySleep
-    {
-        get => _onBatterySleep;
-        set
-        {
-            if (_onBatterySleep != value)
-            {
-                _onBatterySleep = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
-    public string FileVersion { get; }
-
+    [ObservableProperty]
     private bool _showNotifications;
-    public bool ShowNotifications
-    {
-        get => _showNotifications;
-        set
-        {
-            if (_showNotifications != value)
-            {
-                _showNotifications = value;
-                OnPropertyChanged();
-            }
-        }
-    }
 
     public MainWindow()
     {
+        FileVersion = GetVersion();
         PluggedInScreen = App.Settings.PluggedInScreen;
         PluggedInSleep = App.Settings.PluggedInSleep;
         OnBatteryScreen = App.Settings.OnBatteryScreen;
         OnBatterySleep = App.Settings.OnBatterySleep;
         ShowNotifications = App.Settings.ShowNotifications;
-        FileVersion = GetVersion();
         InitializeComponent();
         PropertyChanged += MainWindow_PropertyChanged;
     }
@@ -128,11 +74,5 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         Hide();
         e.Cancel = true; // Prevent the window from closing
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
