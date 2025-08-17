@@ -11,6 +11,14 @@ public class Settings
     public TimeOutLevel OnBatteryScreen { get; set; } = TimeOutLevel.ThreeMinutes;
     public TimeOutLevel OnBatterySleep { get; set; } = TimeOutLevel.ThreeMinutes;
 
+    public LidPowerSleepButtonOption PluggedInPowerButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+    public LidPowerSleepButtonOption PluggedInSleepButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+    public LidPowerSleepButtonOption PluggedInLidButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+
+    public LidPowerSleepButtonOption OnBatteryPowerButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+    public LidPowerSleepButtonOption OnBatterySleepButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+    public LidPowerSleepButtonOption OnBatteryLidButton { get; set; } = LidPowerSleepButtonOption.Sleep;
+
     public bool ShowNotifications { get; set; } = true;
 
     public static Settings Load()

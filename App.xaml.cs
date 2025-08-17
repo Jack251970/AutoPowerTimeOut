@@ -67,6 +67,7 @@ public partial class App : Application
             }
         };
         SetupPowerSettings(true);
+        SetupLidPowerSleepButtonControlOptions(true);
         AutoStartup();
         Current.MainWindow = new MainWindow();
         _timer.Elapsed += Timer_Elapsed;
@@ -78,6 +79,7 @@ public partial class App : Application
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
     {
         SetupPowerSettings(false);
+        SetupLidPowerSleepButtonControlOptions(false);
     }
 
     [Conditional("RELEASE")]
@@ -141,6 +143,65 @@ public partial class App : Application
         if (Settings.ShowNotifications)
         {
             Win32Helper.ShowNotification("Power settings have been updated successfully.");
+        }
+    }
+
+    private static void SetupLidPowerSleepButtonControlOptions(bool showFailedNotification)
+    {
+        try
+        {
+            // Get setted values from settings
+            var preferredAcPowerOption = Settings.PluggedInPowerButton;
+            var preferredDcPowerOption = Settings.OnBatteryPowerButton;
+            var preferredAcSleepOption = Settings.PluggedInSleepButton;
+            var preferredDcSleepOption = Settings.OnBatterySleepButton;
+            var preferredAcLidOption = Settings.PluggedInLidButton;
+            var preferredDcLidOption = Settings.OnBatteryLidButton;
+
+            // Check if the current settings match the preferred settings
+            if (Win32Helper.GetLidPowerSleepButtonControlOptions(
+                out var acPowerOption,
+                out var dcPowerOption,
+                out var acSleepOption,
+                out var dcSleepOption,
+                out var acLidOption,
+                out var dcLidOption) &&
+                preferredAcPowerOption == acPowerOption &&
+                preferredDcPowerOption == dcPowerOption &&
+                preferredAcSleepOption == acSleepOption &&
+                preferredDcSleepOption == dcSleepOption &&
+                preferredAcLidOption == acLidOption &&
+                preferredDcLidOption == dcLidOption)
+            {
+                if (Settings.ShowNotifications && showFailedNotification)
+                {
+                    Win32Helper.ShowNotification("Lid, Power, and Sleep button control options have been updated successfully.");
+                }
+                return;
+            }
+
+            // Set the lid, power, and sleep button control options
+            Win32Helper.SetLidPowerSleepButtonControlOptions(
+                preferredAcPowerOption,
+                preferredDcPowerOption,
+                preferredAcSleepOption,
+                preferredDcSleepOption,
+                preferredAcLidOption,
+                preferredDcLidOption
+            );
+        }
+        catch (Exception e)
+        {
+            if (showFailedNotification)
+            {
+                Win32Helper.ShowNotification($"Failed to update Lid, Power, and Sleep button control options: {e.Message}");
+            }
+            return;
+        }
+
+        if (Settings.ShowNotifications)
+        {
+            Win32Helper.ShowNotification("Lid, Power, and Sleep button control options have been updated successfully.");
         }
     }
 
