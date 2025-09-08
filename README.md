@@ -11,3 +11,7 @@ One small tool for fixing Windows sleep option resetting issue
 - This app will set these settings every time it starts and the system resumes.
 - This app will register the logon task when it starts, so it will automatically start during system startup.
 - This app will check the settings every 3 minutes and update them if they are changed.
+
+# Build
+
+- `dotnet publish AutoPowerTimeOut.csproj -p:PublishProfile=Net9.0-Win64.pubxml`
