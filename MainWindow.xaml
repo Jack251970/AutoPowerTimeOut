@@ -29,10 +29,10 @@
 
         <StackPanel Orientation="Horizontal">
             <Image
+                x:Name="AppImage"
                 Width="20"
                 Margin="20,4,0,0"
-                RenderOptions.BitmapScalingMode="HighQuality"
-                Source="/icon.png" />
+                RenderOptions.BitmapScalingMode="HighQuality" />
             <TextBlock
                 x:Name="AppTitleText"
                 Margin="12,4,0,0"

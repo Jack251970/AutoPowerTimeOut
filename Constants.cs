@@ -12,4 +12,6 @@ public static class Constants
     public const string AppName = "Auto Power Time-out";
 
     public static readonly string ExecutablePath = Path.Combine(AppContext.BaseDirectory, "AutoPowerTimeOut.exe");
+
+    public static readonly string AppImagePath = Path.Combine(AppContext.BaseDirectory, "icon.png");
 }

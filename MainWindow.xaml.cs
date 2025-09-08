@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace AutoPowerTimeOut;
 
@@ -54,6 +56,8 @@ public partial class MainWindow : Window
         FileVersion = GetVersion();
 
         InitializeComponent();
+
+        AppImage.Source = new BitmapImage(new Uri(Constants.IconPath));
 
         PluggedInScreen = App.Settings.PluggedInScreen;
         PluggedInSleep = App.Settings.PluggedInSleep;
