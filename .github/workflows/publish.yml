@@ -42,7 +42,7 @@ jobs:
       # Get package version
       - name: Get Package Version
         run: |
-         $version = [system.diagnostics.fileversioninfo]::getversioninfo("bin\x64\Release\AutoPowerTimeOut.dll").fileversion
+         $version = [system.diagnostics.fileversioninfo]::getversioninfo("bin\Release\AutoPowerTimeOut.dll").fileversion
          echo "release_version=$version" | out-file -filepath $env:github_env -encoding utf-8 -append
 
       # Publish the project
