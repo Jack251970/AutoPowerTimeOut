@@ -10,10 +10,11 @@ using MouseButtons = System.Windows.Forms.MouseButtons;
 using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Timer = System.Timers.Timer;
 using ElapsedEventArgs = System.Timers.ElapsedEventArgs;
+using System.Threading;
 
 namespace AutoPowerTimeOut;
 
-public partial class App : Application
+public partial class App : Application, IDisposable, ISingleInstanceApp
 {
     public static Settings Settings { get; private set; } = null!;
 
@@ -21,6 +22,22 @@ public partial class App : Application
     private readonly ContextMenu _contextMenu = new();
 
     private readonly Timer _timer = new();
+
+    private static bool _disposed;
+    // To prevent two disposals running at the same time.
+    private static readonly Lock _disposingLock = new();
+
+    [STAThread]
+    public static void Main()
+    {
+        // Start the application as a single instance
+        if (SingleInstance<App>.InitializeAsFirstInstance())
+        {
+            using var application = new App();
+            application.InitializeComponent();
+            application.Run();
+        }
+    }
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
@@ -211,11 +228,44 @@ public partial class App : Application
         e.Handled = true;
     }
 
-    private void Application_Exit(object sender, ExitEventArgs e)
+    protected virtual void Dispose(bool disposing)
     {
-        ToastNotificationManagerCompat.Uninstall();
-        _contextMenu.IsOpen = false;
-        _notifyIcon?.Dispose();
-        _timer.Dispose();
+        // Prevent two disposes at the same time.
+        lock (_disposingLock)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+        }
+
+        if (disposing)
+        {
+            ToastNotificationManagerCompat.Uninstall();
+            _contextMenu.IsOpen = false;
+            _notifyIcon?.Dispose();
+            _timer.Dispose();
+        }
+    }
+
+    public void Dispose()
+    {
+        // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    public void OnSecondAppStarted()
+    {
+        // Show the main window and bring it to the foreground
+        Current.MainWindow.Show();
+        Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
     }
 }

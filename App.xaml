@@ -5,7 +5,6 @@
     xmlns:local="clr-namespace:AutoPowerTimeOut"
     xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
     DispatcherUnhandledException="Application_DispatcherUnhandledException"
-    Exit="Application_Exit"
     Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
