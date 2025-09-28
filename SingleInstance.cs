@@ -37,7 +37,7 @@ public static class SingleInstance<TApplication> where TApplication : Applicatio
     /// Suffix to the channel name.
     /// </summary>
     private const string ChannelNameSuffix = "SingeInstanceIPCChannel";
-    private const string InstanceMutexName = "Flow.Launcher_Unique_Application_Mutex";
+    private const string InstanceMutexName = "AutoPowerTimeOut_Unique_Application_Mutex";
 
     /// <summary>
     /// Application mutex.
