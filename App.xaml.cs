@@ -81,9 +81,6 @@ public partial class App : Application, IDisposable, ISingleInstanceApp
         _timer.Interval = 1000 * 60 * 3; // 3 minutes since it is the recommended time-out for battery mode
         _timer.AutoReset = true;
         _timer.Start();
-
-        Current.MainWindow.Show();
-        Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
     }
 
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
