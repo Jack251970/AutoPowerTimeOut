@@ -6,8 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using MouseButtons = System.Windows.Forms.MouseButtons;
-using NotifyIcon = System.Windows.Forms.NotifyIcon;
 using Timer = System.Timers.Timer;
 using ElapsedEventArgs = System.Timers.ElapsedEventArgs;
 using System.Threading;
@@ -18,7 +16,7 @@ public partial class App : Application, IDisposable, ISingleInstanceApp
 {
     public static Settings Settings { get; private set; } = null!;
 
-    private NotifyIcon _notifyIcon = null!;
+    private SystemTrayIcon _notifyIcon = null!;
     private readonly ContextMenu _contextMenu = new();
 
     private readonly Timer _timer = new();
@@ -53,35 +51,27 @@ public partial class App : Application, IDisposable, ISingleInstanceApp
             Current.Shutdown();
         };
         _contextMenu.Items.Add(exitItem);
-        _notifyIcon = new NotifyIcon
+        _notifyIcon = new SystemTrayIcon
         {
-            Text = "Auto Power Time-out",
-            Icon = AutoPowerTimeOut.Properties.Resources.Icon,
-            Visible = true
+            Tooltip = Constants.AppName,
+            Icon = new(Constants.IconPath)
         };
-        _notifyIcon.MouseClick += (o, e) =>
+        _notifyIcon.Show();
+        _notifyIcon.LeftClick += (o, e) =>
         {
-            switch (e.Button)
+            // Show the main window and bring it to the foreground
+            Current.MainWindow.Show();
+            Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
+        };
+        _notifyIcon.RightClick += (o, e) =>
+        {
+            _contextMenu.IsOpen = true;
+            // Get context menu handle and bring it to the foreground at the topmost
+            if (PresentationSource.FromVisual(_contextMenu) is HwndSource hwndSource)
             {
-                case MouseButtons.Left:
-
-                    // Show the main window and bring it to the foreground
-                    Current.MainWindow.Show();
-                    Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
-
-                    break;
-                case MouseButtons.Right:
-
-                    _contextMenu.IsOpen = true;
-                    // Get context menu handle and bring it to the foreground at the topmost
-                    if (PresentationSource.FromVisual(_contextMenu) is HwndSource hwndSource)
-                    {
-                        Win32Helper.BringToForegroundEx(hwndSource.Handle, true);
-                    }
-                    _contextMenu.Focus();
-
-                    break;
+                Win32Helper.BringToForegroundEx(hwndSource.Handle, true);
             }
+            _contextMenu.Focus();
         };
         SetupPowerSettings(true);
         SetupLidPowerSleepButtonControlOptions(true);
@@ -91,6 +81,9 @@ public partial class App : Application, IDisposable, ISingleInstanceApp
         _timer.Interval = 1000 * 60 * 3; // 3 minutes since it is the recommended time-out for battery mode
         _timer.AutoReset = true;
         _timer.Start();
+
+        Current.MainWindow.Show();
+        Win32Helper.BringToForegroundEx(Current.MainWindow, Current.MainWindow.Topmost);
     }
 
     private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
@@ -250,6 +243,7 @@ public partial class App : Application, IDisposable, ISingleInstanceApp
         {
             ToastNotificationManagerCompat.Uninstall();
             _contextMenu.IsOpen = false;
+            _notifyIcon?.Hide();
             _notifyIcon?.Dispose();
             _timer.Dispose();
         }
