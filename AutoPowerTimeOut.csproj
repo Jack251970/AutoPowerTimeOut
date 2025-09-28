@@ -10,6 +10,9 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>enable</Nullable>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<Platforms>x64</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
 	</PropertyGroup>
 
   <PropertyGroup>
