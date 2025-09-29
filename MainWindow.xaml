@@ -93,14 +93,14 @@
                                         FontWeight="Bold"
                                         Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
                                         Text="On battery" />
-                                    <ui:SettingsCard Description="Turn off the screen after 5 minutes to save energy. Higher settings use more energy" Header="Turn my screen off after">
+                                    <ui:SettingsCard Description="Turn off the screen after 3 minutes to save energy. Higher settings use more energy" Header="Turn my screen off after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding OnBatteryItemSource}"
                                             SelectedValue="{Binding OnBatteryScreen}"
                                             SelectedValuePath="Value" />
                                     </ui:SettingsCard>
-                                    <ui:SettingsCard Description="Turn on sleep after 5 minutes to save energy. Higher settings use more energy" Header="Make my device sleep after">
+                                    <ui:SettingsCard Description="Turn on sleep after 3 minutes to save energy. Higher settings use more energy" Header="Make my device sleep after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding OnBatteryItemSource}"
