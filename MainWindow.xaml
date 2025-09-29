@@ -51,7 +51,7 @@
 
         <ui:ScrollViewerEx Grid.Row="1">
             <ikw:SimpleStackPanel Margin="16,0,16,16" Spacing="4">
-                <ui:SettingsExpander Description="Choose what happens when yur device is idle for a specified time" Header="Screen, sleep &amp; hibernate time-outs">
+                <ui:SettingsExpander Description="Choose what happens when your device is idle for a specified time" Header="Screen, sleep &amp; hibernate time-outs">
                     <ui:SettingsExpander.HeaderIcon>
                         <ui:FontIcon Glyph="&#xE708;" />
                     </ui:SettingsExpander.HeaderIcon>
@@ -67,14 +67,14 @@
                                         FontWeight="Bold"
                                         Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
                                         Text="Plugged in" />
-                                    <ui:SettingsCard Header="Turn my screen off after">
+                                    <ui:SettingsCard Description="Turn off the screen after 5 minutes to save energy. Higher settings use more energy" Header="Turn my screen off after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding PluggedInItemSource}"
                                             SelectedValue="{Binding PluggedInScreen}"
                                             SelectedValuePath="Value" />
                                     </ui:SettingsCard>
-                                    <ui:SettingsCard Header="Turn my screen off after">
+                                    <ui:SettingsCard Description="Turn on sleep after 5 minutes to save energy. Higher settings use more energy" Header="Make my device sleep after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding PluggedInItemSource}"
@@ -93,14 +93,14 @@
                                         FontWeight="Bold"
                                         Foreground="{ui:ThemeResource {x:Static ui:ThemeKeys.TextFillColorPrimaryBrushKey}}"
                                         Text="On battery" />
-                                    <ui:SettingsCard Header="Turn my screen off after">
+                                    <ui:SettingsCard Description="Turn off the screen after 5 minutes to save energy. Higher settings use more energy" Header="Turn my screen off after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding OnBatteryItemSource}"
                                             SelectedValue="{Binding OnBatteryScreen}"
                                             SelectedValuePath="Value" />
                                     </ui:SettingsCard>
-                                    <ui:SettingsCard Header="Turn my screen off after">
+                                    <ui:SettingsCard Description="Turn on sleep after 5 minutes to save energy. Higher settings use more energy" Header="Make my device sleep after">
                                         <ComboBox
                                             DisplayMemberPath="Display"
                                             ItemsSource="{Binding OnBatteryItemSource}"
